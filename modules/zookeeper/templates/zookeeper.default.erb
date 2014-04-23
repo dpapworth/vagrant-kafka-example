@@ -1,0 +1,14 @@
+# Note: This file is managed by Puppet.
+
+# See the following page for extensive details on setting
+# up the JVM to accept JMX remote management:
+# http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html
+
+<% if @jmx_port -%>
+# Enable JMX connections on port <%= jmx_port %>
+JMXLOCALONLY=false
+JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote.port=<%= jmx_port %> -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+<% else -%>
+JMXDISABLE=true
+<% end -%>
+
