@@ -12,11 +12,31 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # doesn't already exist on the user's system.
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
-  config.vm.define :zookeeper do |zookeeper|
-    zookeeper.vm.hostname = "zookeeper.damienpapworth.com"
-    zookeeper.vm.network "private_network", ip: "192.168.10.10"
+  config.vm.define :zk01 do |zk01|
+    zk01.vm.hostname = "zk01.lan"
+    zk01.vm.network "private_network", ip: "192.168.10.10"
 
-    zookeeper.vm.provider "virtualbox" do |v|
+    zk01.vm.provider "virtualbox" do |v|
+      v.memory = 512
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
+  config.vm.define :zk02 do |zk02|
+    zk02.vm.hostname = "zk02.lan"
+    zk02.vm.network "private_network", ip: "192.168.10.11"
+
+    zk02.vm.provider "virtualbox" do |v|
+      v.memory = 512
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
+  config.vm.define :zk03 do |zk03|
+    zk03.vm.hostname = "zk03.lan"
+    zk03.vm.network "private_network", ip: "192.168.10.12"
+
+    zk03.vm.provider "virtualbox" do |v|
       v.memory = 512
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
     end
