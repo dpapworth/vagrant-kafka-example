@@ -42,6 +42,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  config.vm.define :kafka01 do |kafka01|
+    kafka01.vm.hostname = "kafka01.lan"
+    kafka01.vm.network "private_network", ip: "192.168.10.13"
+
+    kafka01.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
+  config.vm.define :kafka02 do |kafka02|
+    kafka02.vm.hostname = "kafka02.lan"
+    kafka02.vm.network "private_network", ip: "192.168.10.14"
+
+    kafka02.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+      v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+    end
+  end
+
   # Install a specified version of Puppet
   config.vm.provision :shell do |s|
     s.path = "bin/install_puppet.sh"

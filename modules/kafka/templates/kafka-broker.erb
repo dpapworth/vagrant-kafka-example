@@ -1,0 +1,99 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          kafka-broker
+# Required-Start:    kafka-zookeeper $remote_fs
+# Required-Stop:     $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: A high-throughput distributed messaging system.
+### END INIT INFO
+# /etc/init.d/kafka-broker start and stop kafka distributed messaging system.
+
+# Kafka Broker Service
+
+NAME=kafka-broker
+DAEMON=<%= @install_dir %>/bin/kafka-server-start.sh
+DAEMON_ARGS=/etc/kafka/server.properties
+
+RETVAL=0
+
+if [ ! -r $DAEMON_ARGS ]; then
+    log_end_msg "$DAEMON_ARGS is not readable"
+    exit 1
+fi
+
+start() {
+   echo -n $"Starting $NAME: "
+   if start-stop-daemon --start --background --quiet --umask 007 --chuid kafka:kafka --exec $DAEMON -- $DAEMON_ARGS 
+   then
+      echo "ok"
+   else
+      echo "failed"
+   fi
+  return $RETVAL
+}
+
+stop() {
+  echo $"Stopping $NAME: "
+  for pgid in `ps ax -o  "pid pgid args" | \grep $DAEMON | \grep -v "grep" | awk '{print $2}'`; do
+    for pid in `ps ax -o  "pid pgid args" | \grep -E $"[0-9]+ +$pgid +" | \grep java | \grep -v "grep" | awk '{print $1}'`; do
+      echo -n $"Stopping $NAME($pid): "
+      kill $pid
+      RETVAL=$?
+      c=50
+      while [ $c -gt 0 ]; do
+        let c=$c-1
+        flag=1
+        for p in `ps ax -o  "pid pgid args" | \grep -E $"[0-9]+ +$pgid +"`; do
+          flag=0
+          break
+        done
+        if [ $flag -ne 0 ]; then
+          break
+        fi
+        sleep .1
+      done
+      if [ $c -le 0 ]; then
+        RETVAL=1
+      fi
+    done
+  done
+  [ $RETVAL -eq 0 ] && echo ok
+  [ $RETVAL -ne 0 ] && echo failed
+    echo
+  return $RETVAL
+}
+
+reload() {
+  stop
+  start
+}
+
+restart() {
+  stop
+  start
+}
+
+case "$1" in
+start)
+  start
+  ;;
+
+stop)
+  stop
+  ;;
+
+reload)
+  reload
+  ;;
+
+restart)
+  restart
+  ;;
+
+*)
+  echo $"Usage: $0 {start|stop|reload|restart}"
+  exit 1
+esac
+
+exit $?
