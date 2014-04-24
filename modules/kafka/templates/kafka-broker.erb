@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ### BEGIN INIT INFO
 # Provides:          kafka-broker
 # Required-Start:    kafka-zookeeper $remote_fs
@@ -35,7 +35,7 @@ start() {
 
 stop() {
   echo $"Stopping $NAME: "
-  for pgid in `ps ax -o  "pid pgid args" | \grep $DAEMON | \grep -v "grep" | awk '{print $2}'`; do
+  for pgid in `ps ax -o  "pid pgid args" | \grep kafka.Kafka | \grep -v "grep" | awk '{print $2}'`; do
     for pid in `ps ax -o  "pid pgid args" | \grep -E $"[0-9]+ +$pgid +" | \grep java | \grep -v "grep" | awk '{print $1}'`; do
       echo -n $"Stopping $NAME($pid): "
       kill $pid

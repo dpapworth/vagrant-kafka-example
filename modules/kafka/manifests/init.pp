@@ -53,7 +53,9 @@ class kafka(
   }
 
   file { '/etc/init.d/kafka-broker':
-    mode => 0744,
+    owner => 'root',
+    group => 'root',
+    mode => 0755,
     content => template('kafka/kafka-broker.erb'),
     require => File['/etc/kafka/server.properties'],
   }
