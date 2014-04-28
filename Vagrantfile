@@ -13,7 +13,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://puppet-vagrant-boxes.puppetlabs.com/ubuntu-server-12042-x64-vbox4210-nocm.box"
 
   config.vm.define :zk01 do |zk01|
-    zk01.vm.hostname = "zk01.lan"
+    zk01.vm.hostname = "zk01.local"
     zk01.vm.network "private_network", ip: "192.168.10.10"
 
     zk01.vm.provider "virtualbox" do |v|
@@ -23,7 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :zk02 do |zk02|
-    zk02.vm.hostname = "zk02.lan"
+    zk02.vm.hostname = "zk02.local"
     zk02.vm.network "private_network", ip: "192.168.10.11"
 
     zk02.vm.provider "virtualbox" do |v|
@@ -33,7 +33,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :zk03 do |zk03|
-    zk03.vm.hostname = "zk03.lan"
+    zk03.vm.hostname = "zk03.local"
     zk03.vm.network "private_network", ip: "192.168.10.12"
 
     zk03.vm.provider "virtualbox" do |v|
@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :kafka01 do |kafka01|
-    kafka01.vm.hostname = "kafka01.lan"
+    kafka01.vm.hostname = "kafka01.local"
     kafka01.vm.network "private_network", ip: "192.168.10.13"
 
     kafka01.vm.provider "virtualbox" do |v|
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :kafka02 do |kafka02|
-    kafka02.vm.hostname = "kafka02.lan"
+    kafka02.vm.hostname = "kafka02.local"
     kafka02.vm.network "private_network", ip: "192.168.10.14"
 
     kafka02.vm.provider "virtualbox" do |v|
