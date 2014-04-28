@@ -47,7 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     kafka01.vm.network "private_network", ip: "192.168.10.13"
 
     kafka01.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 1536
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
     end
   end
@@ -57,7 +57,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     kafka02.vm.network "private_network", ip: "192.168.10.14"
 
     kafka02.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 1536
       v.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
     end
   end
